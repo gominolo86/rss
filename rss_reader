@@ -1,0 +1,27 @@
+import feedparser
+import time
+import calendar
+
+url='https://rss.nytimes.com/services/xml/rss/nyt/World.xml'
+#url=input('Type the url for your feed\n')
+print('Reading feed...')
+
+now=time.time()
+last_news=0
+    
+while True:
+    if last_news<now:
+        file=feedparser.parse(url)
+        #items=file.entries
+        #file['feed']['title']
+
+        for entry in file.entries:
+            last_news=calendar.timegm(entry['published_parsed'])
+            print("[**]", entry['title'],'[**]')
+            print("\t\tDate ", entry['published'])
+            print("\t\tAuthor ", entry['author'])
+            print("\t\tSummary ", entry['summary'])
+            print("\t\tLink ", entry['link'])
+    else:
+           time.sleep(60)
+       
